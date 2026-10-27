@@ -1,0 +1,95 @@
+{
+  "brand_sources": [
+    {
+      "file": "../../f3eee75c-a680-479a-8e93-e3e542515465.jpeg",
+      "origin": "User-supplied recruitment reference",
+      "author": null,
+      "license": "User supplied; rights not independently verified",
+      "use": "Recruitment direction, yellow accent, rounded typography, reference image"
+    },
+    {
+      "file": "../../Dossier-segunda-parte-vista-previa-v2.pdf",
+      "origin": "User-supplied agency presentation",
+      "author": null,
+      "license": "User supplied; rights not independently verified",
+      "use": "Source vector logo, source green/orange colors, existing font names, seven brand themes",
+      "logo_source_page": 15
+    },
+    {
+      "file": "01-Credenciales-Autocredito.pdf",
+      "origin": "User-supplied credential production artwork; 10 pages",
+      "author": null,
+      "license": "User supplied; rights not independently verified",
+      "use": "Observed brand signature, name/role/agency hierarchy, looping ribbon, supporting texture. All ten pages read visually; no embedded text or font declarations available.",
+      "reference_pages": [
+        1,
+        10
+      ]
+    },
+    {
+      "file": "WhatsApp-Image-2026-10-26-at-8.23.49-PM.jpeg",
+      "origin": "User-supplied screenshot of customer campaign",
+      "author": null,
+      "license": "User supplied; rights not independently verified",
+      "use": "Customer-language reference, warm family photography direction, yellow supporting highlight, looping ribbon, social channel context",
+      "offer_status": "Source image states validity until 20/09/2026. Amounts not adopted as a current offer."
+    }
+  ],
+  "derived_assets": {
+    "logo-green.svg": "Original vector paths from presentation page 15; recolored to presentation primary green",
+    "logo-white.svg": "Original white vector paths from presentation page 15",
+    "credentials-reference.jpg": "Reference rendering of source credential PDF page 1, uncropped; 1400 by 991 pixels.",
+    "cinta-credenciales.png": {
+      "source": "01-Credenciales-Autocredito.pdf",
+      "page": 1,
+      "source_image_dimensions": [
+        4962,
+        3509
+      ],
+      "crop": [
+        472,
+        2400,
+        1005,
+        580
+      ],
+      "method": "Copia de los píxeles de la cinta verde con transparencia para separar el fondo; sin redibujar el bucle."
+    }
+  },
+  "fonts": [
+    {
+      "name": "Plus Jakarta Sans",
+      "source": "https://github.com/google/fonts/tree/main/ofl/plusjakartasans",
+      "license": "SIL Open Font License 1.1",
+      "role": "Proposed digital substitute for Area Extended"
+    },
+    {
+      "name": "Montserrat",
+      "source": "https://github.com/google/fonts/tree/main/ofl/montserrat",
+      "license": "SIL Open Font License 1.1",
+      "role": "Supporting family identified in supplied presentation"
+    },
+    {
+      "name": "Manrope",
+      "source": "https://github.com/google/fonts/tree/main/ofl/manrope",
+      "license": "SIL Open Font License 1.1",
+      "role": "Tipografía de toda la interfaz del portal; misma familia identificada en la referencia Magoya."
+    }
+  ],
+  "color_status": "Presentation colors converted from SVG RGB percentages; yellow approximated from JPEG. Proposed system; not an approved corporate standard.",
+  "guide_revision": "Portal de cuatro páginas: Inicio, Marca, Identidad visual y Recursos. Aplicaciones y los contenidos de plantillas se retiraron. Interfaz en Manrope y estructura ajustada a la referencia Magoya.",
+  "structure_reference": {
+    "url": "https://brand.magoya.com/index.html",
+    "use": "Task-based entry points, chapter organization, visual overview, and resource library; no Magoya brand assets reused.",
+    "access": "Page source retrieved; subsequent browser access was declined."
+  },
+  "social_templates": {
+    "source_photo": "../../f3eee75c-a680-479a-8e93-e3e542515465.jpeg",
+    "method": "Recorte mediante trazados de las fotos originales; sin generación de personas. SVG con foto y fuente incorporadas; PNG exportado con Core Graphics.",
+    "files": [
+      "../templates/01-agente-feed.svg",
+      "../templates/02-equipo-feed.svg",
+      "../templates/03-agente-historia.svg"
+    ],
+    "limitations": "Las fotografías provienen de una pieza de 798 × 704 px y su resolución limita la ampliación."
+  }
+}

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es-AR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#E9E9E6"><title>Sistema de diseño propuesto · Autocrédito</title>
+<style>/* OD-LAYOUT-PRIMITIVES v1 — structure only: display, flex/grid, overflow, wrapping, ratio, geometry.
+   Put this @layer first; product CSS outside the layer wins ordinary layout rules.
+   Native hidden and closed-dialog states take precedence over component display rules. */
+@layer od-layout {
+  [hidden]:not([hidden="until-found" i]) { display: none !important; }
+  dialog:not([open]) { display: none !important; }
+
+  :where(.od-stack,.od-row,.od-row-top,.od-cluster,.od-grid,.od-field,.od-stat,.od-cell,.od-tile) > :where(*) { min-width: 0; }
+
+  /* containers */
+  .od-stack   { display: flex; flex-direction: column; gap: var(--od-gap, 8px); }
+  .od-row     { display: flex; align-items: center; gap: var(--od-gap, 8px); }
+  .od-row-top { display: flex; align-items: flex-start; gap: var(--od-gap, 8px); }
+  .od-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--od-gap, 8px); }
+  .od-fill    { flex: 1 1 0; min-width: 0; }
+  .od-fixed   { flex: none; }
+  .od-grid    { display: grid; gap: var(--od-gap, 12px); grid-template-columns: repeat(var(--od-cols, 3), minmax(0, 1fr)); }
+
+  /* stacked information: each piece is its own line — never sibling inline spans */
+  .od-stat, .od-field, .od-cell { display: grid; gap: var(--od-gap, 2px); }
+  :where(.od-stat,.od-field,.od-cell) > :where(*) { display: block; }
+  .od-tile { display: grid; grid-template-rows: auto 1fr; }
+  :where(.od-tile) > :where(*) { display: block; }
+
+  /* media keeps its intrinsic ratio by default; never a distorted or cropped
+     cover by accident. height:auto lets the ratio win over an <img height="…">
+     attribute. Cropping to a uniform box is an explicit opt-in: set --od-ratio
+     AND add .od-media-cover together (per the core rule, only where a crop is
+     deliberate — tile thumbs, decorative fills — never on full-frame content). */
+  .od-media { display: block; width: 100%; height: auto; aspect-ratio: var(--od-ratio, auto); }
+  .od-media-cover { object-fit: cover; }
+
+  /* functional inline SVG icons opt into bounded geometry; content SVGs keep their own */
+  .od-icon { display: inline-block; inline-size: var(--od-icon-size, 1em); block-size: var(--od-icon-size, 1em); flex: none; }
+
+  /* data text only — authored copy is rewritten to its budget instead */
+  .od-truncate { display: block; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .od-clamp-2, .od-clamp-3 { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+  .od-clamp-2 { -webkit-line-clamp: 2; }
+  .od-clamp-3 { -webkit-line-clamp: 3; }
+  .od-lines-2 { min-height: calc(2 * 1.4em); }   /* block-level reservation for a shared baseline */
+  .od-nowrap  { white-space: nowrap; }           /* 数字+单位 · 价格+起 · 日期+星期 */
+  .od-keep    { word-break: keep-all; overflow-wrap: anywhere; } /* CJK labels break at spaces / <wbr> first */
+
+  /* screen skeleton (optional): bars take their own space, the middle scrolls — no padding guessed for chrome */
+  .od-screen { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100%; }
+  .od-scroll { overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+
+  /* horizontal rail: the next item peeks at the edge; trailing room survives overflow */
+  .od-rail { display: flex; gap: var(--od-gap, 8px); overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none;
+             padding-inline: var(--od-rail-pad, 16px); scroll-padding-inline: var(--od-rail-pad, 16px); }
+  .od-rail::-webkit-scrollbar { display: none; }
+  :where(.od-rail) > :where(*) { flex: none; scroll-snap-align: start; }
+  :where(.od-rail) > :where(:last-child) { margin-inline-end: var(--od-rail-pad, 16px); }
+
+  .od-spacer { flex: none; visibility: hidden; pointer-events: none; }
+  .od-touch  { min-width: 44px; min-height: 44px; }
+}
+:root [hidden]:where(:not([hidden="until-found" i])) { display: none; }
+/* /OD-LAYOUT-PRIMITIVES v1 */
+</style>
+<link rel="icon" href="assets/brand/logo-green.svg" type="image/svg+xml"><link rel="stylesheet" href="styles/tokens.css"><link rel="stylesheet" href="styles/brand.css"><link rel="stylesheet" href="styles/system.css"><link rel="stylesheet" href="styles/system-docs.css"><script src="scripts/system.js" defer></script><script src="scripts/system-docs.js" defer></script><link rel="stylesheet" href="styles/portal.css"></head>
+<body data-page="design-system.html" class="portal-reference ac-ui"><a class="skip" href="#main">Ir al contenido</a><header class="site-header"><nav class="nav-inner" aria-label="Navegación principal"><a class="brand-link" href="index.html" aria-label="Autocrédito, inicio"><img class="logo" src="assets/brand/logo-green.svg" width="378" height="58" alt="Autocrédito"></a><a class="nav-item" href="index.html">Inicio</a><details class="nav-group"><summary>Conocer la marca</summary><div class="nav-popover"><a href="strategy.html">Marca</a><a href="visual-identity.html">Identidad visual</a></div></details><a class="nav-item on" href="design-system.html" aria-current="page">Sistema de diseño</a><a class="nav-item" href="resources.html">Descargas</a><span class="header-edition">Autocrédito · Manual de marca</span></nav></header>
+<main class="ds-main" id="main"><div class="ds-intro"><div><span class="ds-kicker">Propuesta digital</span><h1>Sistema de diseño propuesto</h1><p>Componentes creados para este proyecto. No aparecen en los materiales de Autocrédito que compartiste.</p></div><div class="ds-intro-meta"><strong>Propuesta nueva</strong><span>HTML, CSS y JavaScript</span><a class="ac-link" href="#implementacion">Usar el sistema <span aria-hidden="true">↓</span></a></div></div><nav class="ds-index" aria-label="Secciones del sistema de diseño"><a href="#fundamentos">Fundamentos</a><a href="#tipografia">Tipografía</a><a href="#espacio">Espacio</a><a href="#acciones">Botones</a><a href="#formularios">Formularios</a><a href="#navegacion">Navegación</a><a href="#contenido">Contenido</a><a href="#mensajes">Mensajes</a><a href="#accesibilidad">Accesibilidad</a><a href="#implementacion">Código</a></nav>
+<section class="ds-section" id="fundamentos" aria-labelledby="title-fundamentos"><div class="ds-section-heading"><span>01</span><h2 id="title-fundamentos">Fundamentos</h2></div><div class="ds-section-body"><p class="ds-lead">Los colores de marca definen la identidad. Los roles indican cómo usarlos en una interfaz.</p><div class="ds-color-list"><div class="ds-color-row"><span class="ds-color-chip" style="--ds-chip:var(--ui-action)" aria-hidden="true"></span><div class="ds-color-name"><strong>Acción principal</strong><code>--ui-action</code></div><code>#007853</code></div><div class="ds-color-row"><span class="ds-color-chip" style="--ds-chip:var(--ui-text)" aria-hidden="true"></span><div class="ds-color-name"><strong>Texto</strong><code>--ui-text</code></div><code>#17392C</code></div><div class="ds-color-row"><span class="ds-color-chip" style="--ds-chip:var(--ui-text-muted)" aria-hidden="true"></span><div class="ds-color-name"><strong>Texto secundario</strong><code>--ui-text-muted</code></div><code>#59685F</code></div><div class="ds-color-row"><span class="ds-color-chip" style="--ds-chip:var(--ui-surface)" aria-hidden="true"></span><div class="ds-color-name"><strong>Superficie</strong><code>--ui-surface</code></div><code>#FFFFFF</code></div><div class="ds-color-row"><span class="ds-color-chip" style="--ds-chip:var(--ui-border-control)" aria-hidden="true"></span><div class="ds-color-name"><strong>Borde de control</strong><code>--ui-border-control</code></div><code>#75877D</code></div><div class="ds-color-row"><span class="ds-color-chip" style="--ds-chip:var(--ui-focus)" aria-hidden="true"></span><div class="ds-color-name"><strong>Foco visible</strong><code>--ui-focus</code></div><code>#0B5B3C</code></div></div><p class="ds-note">Las variables de interfaz apuntan a la paleta existente. <code>--ui-action</code> usa <code>--green</code>. Los colores de error, advertencia e información fueron creados para esta propuesta. No provienen de los materiales de Autocrédito.</p><div class="ac-table-region" role="region" aria-label="Roles de estado" tabindex="0"><table class="ac-table"><caption>Paleta de estado propuesta</caption><thead><tr><th scope="col">Estado</th><th scope="col">Texto</th><th scope="col">Superficie</th></tr></thead><tbody><tr><th scope="row">Éxito</th><td><code>#0B5B3C</code></td><td><code>#EDF6F0</code></td></tr><tr><th scope="row">Error</th><td><code>#9C2F24</code></td><td><code>#FFF3F0</code></td></tr><tr><th scope="row">Advertencia</th><td><code>#6D4E00</code></td><td><code>#FFFBE7</code></td></tr><tr><th scope="row">Información</th><td><code>#214D66</code></td><td><code>#EDF5F9</code></td></tr></tbody></table></div><p class="ds-note">El logo y la cinta conservan sus reglas en <a class="ac-link" href="visual-identity.html">Identidad visual</a>. Esta versión del sistema cubre interfaces claras.</p></div></section>
+<section class="ds-section" id="tipografia" aria-labelledby="title-tipografia"><div class="ds-section-heading"><span>02</span><h2 id="title-tipografia">Tipografía</h2></div><div class="ds-section-body"><p class="ds-lead">Manrope es la fuente de este portal. La escala y los pesos de interfaz que siguen son una propuesta para este proyecto, no una especificación corporativa de Autocrédito.</p><div class="ds-type"><div class="ds-type-item"><p class="ds-type-sample ds-type-display">Una marca, un criterio</p><p class="ds-note">Título de página · 32–48 px · interlineado 1,15</p></div><div class="ds-type-item"><p class="ds-type-sample ds-type-heading">Contenido con jerarquía</p><p class="ds-note">Título de contenido · 32 px · interlineado 1,2</p></div><div class="ds-type-item"><p class="ds-type-sample ds-type-body">El texto explica qué puede hacer una persona y qué sucede después. Usá palabras concretas y una acción por botón.</p><p class="ds-note">Cuerpo · 16 px · interlineado 1,6 · hasta 65 caracteres por línea</p></div><div class="ds-type-item"><p class="ds-type-sample ds-type-label">Etiqueta o información de apoyo</p><p class="ds-note">Texto secundario · 14 px · interlineado 1,5</p></div></div><p class="ds-note">La escala también incluye 24 px para secciones y 20 px para subtítulos. El cuerpo usa tracking normal, las etiquetas 0,02 em y las mayúsculas 0,08 em. Las piezas de marca conservan sus familias originales.</p></div></section>
+<section class="ds-section" id="espacio" aria-labelledby="title-espacio"><div class="ds-section-heading"><span>03</span><h2 id="title-espacio">Espacio y layout</h2></div><div class="ds-section-body"><p class="ds-lead">Base de 4 px. Agrupá los elementos relacionados y separá los bloques de contenido.</p><ul class="ds-spacing" aria-label="Escala de espaciado"><li><span>4 px</span><span class="ds-spacing-bar" style="--ds-space:var(--s1)" aria-hidden="true"></span></li><li><span>8 px</span><span class="ds-spacing-bar" style="--ds-space:var(--s2)" aria-hidden="true"></span></li><li><span>16 px</span><span class="ds-spacing-bar" style="--ds-space:var(--s4)" aria-hidden="true"></span></li><li><span>24 px</span><span class="ds-spacing-bar" style="--ds-space:var(--s6)" aria-hidden="true"></span></li><li><span>32 px</span><span class="ds-spacing-bar" style="--ds-space:var(--s8)" aria-hidden="true"></span></li><li><span>48 px</span><span class="ds-spacing-bar" style="--ds-space:var(--s12)" aria-hidden="true"></span></li><li><span>64 px</span><span class="ds-spacing-bar" style="--ds-space:var(--s16)" aria-hidden="true"></span></li></ul><div class="ac-table-region" role="region" aria-label="Reglas de composición" tabindex="0"><table class="ac-table"><caption>Medidas de interfaz</caption><tbody><tr><th scope="row">Control</th><td>48 px de alto. Área táctil mínima de 44 × 44 px.</td></tr><tr><th scope="row">Contenido</th><td>Hasta 1200 px. Texto de lectura hasta 65 caracteres por línea.</td></tr><tr><th scope="row">Separación</th><td>8–16 px dentro de un grupo, 24–32 px entre grupos y 48–64 px entre secciones.</td></tr><tr><th scope="row">Anchos</th><td>En 375 px, una columna. En 768 px, se apilan las columnas de documentación. En 1024 y 1440 px, aumenta el espacio disponible.</td></tr><tr><th scope="row">Bordes</th><td>8 px de radio en controles. Separadores finos y sin sombras decorativas.</td></tr><tr><th scope="row">Transiciones</th><td>200 ms para cambios de estado. Respetar movimiento reducido.</td></tr></tbody></table></div></div></section>
+<section class="ds-section" id="acciones" aria-labelledby="title-acciones"><div class="ds-section-heading"><span>04</span><h2 id="title-acciones">Botones y enlaces</h2></div><div class="ds-section-body"><p class="ds-lead">Una acción principal por bloque. La secundaria acompaña. Un enlace lleva a otro destino.</p><div class="ds-demo "><div class="ac-actions">
+  <button type="button" class="ac-button ac-button--primary" data-ds-action>Guardar</button>
+  <button type="button" class="ac-button ac-button--secondary" data-ds-action>Cancelar</button>
+  <a class="ac-button ac-button--text" href="#implementacion">Ver código</a>
+  <button type="button" class="ac-button ac-button--secondary" disabled>No disponible</button>
+</div><p class="ds-example-feedback" id="button-demo-result" role="status" aria-live="polite">Estos controles son ejemplos. Guardar y Cancelar muestran la acción elegida.</p><div class="ac-actions"><button type="button" class="ac-button ac-button--secondary" data-ds-loading>Probar carga</button><a class="ac-link" href="resources.html">Ir a Descargas</a></div></div><p class="ds-note">Probá el hover con el puntero y el foco con Tab. “Probar carga” simula una espera, conserva el foco y evita repetir la acción. Explicá por qué un control no está disponible cuando no resulte evidente.</p><details class="ds-code"><summary>Ver código HTML</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-botones" aria-label="Copiar código de botones">Copiar código</button></div><pre tabindex="0" aria-label="Código de botones"><code id="code-botones">&lt;button type=&quot;button&quot; class=&quot;ac-button ac-button--primary&quot;&gt;Guardar&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;ac-button ac-button--secondary&quot;&gt;Cancelar&lt;/button&gt;
+&lt;a class=&quot;ac-button ac-button--text&quot; href=&quot;#detalle&quot;&gt;Ver detalle&lt;/a&gt;
+&lt;button type=&quot;button&quot; class=&quot;ac-button ac-button--secondary&quot; disabled&gt;No disponible&lt;/button&gt;</code></pre></details><details class="ds-code"><summary>Ver código HTML</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-carga" aria-label="Copiar código de carga">Copiar código</button></div><pre tabindex="0" aria-label="Código de carga"><code id="code-carga">&lt;button type=&quot;button&quot; class=&quot;ac-button ac-button--primary&quot;
+  aria-busy=&quot;true&quot; aria-disabled=&quot;true&quot;&gt;Guardando…&lt;/button&gt;
+&lt;!-- Restablecé ambos atributos al terminar la operación.
+     system.js bloquea la activación con aria-disabled=&quot;true&quot;. --&gt;</code></pre></details></div></section>
+<section class="ds-section" id="formularios" aria-labelledby="title-formularios"><div class="ds-section-heading"><span>05</span><h2 id="title-formularios">Formularios</h2></div><div class="ds-section-body"><p class="ds-lead">Cada campo tiene una etiqueta visible. La ayuda explica el formato y el error dice cómo corregirlo.</p><div class="ds-demo "><form class="ac-form" id="preferences-demo" data-ac-form novalidate>
+  <div class="ac-notice ac-notice--error" data-ac-errors tabindex="-1"
+    role="group" aria-labelledby="form-errors-title" hidden>
+    <strong id="form-errors-title">Revisá estos campos</strong><ul></ul>
+  </div>
+  <div class="ac-field od-field">
+    <label for="project-name">Nombre del proyecto (obligatorio)</label>
+    <input class="ac-input" id="project-name" name="project" type="text"
+      required minlength="3" maxlength="64" data-ac-field data-ac-label="Nombre del proyecto"
+      data-error-required="Escribí el nombre del proyecto."
+      aria-describedby="project-name-help project-name-error">
+    <span class="ac-help" id="project-name-help">Entre 3 y 64 caracteres.</span>
+    <span class="ac-error" id="project-name-error" hidden></span>
+  </div>
+  <div class="ac-field od-field">
+    <label for="project-type">Tipo de proyecto (obligatorio)</label>
+    <select class="ac-select" id="project-type" name="type" required data-ac-field
+      data-ac-label="Tipo de proyecto" data-error-required="Elegí un tipo de proyecto."
+      aria-describedby="project-type-error">
+      <option value="">Seleccioná una opción</option>
+      <option value="portal">Portal</option>
+      <option value="landing">Página de presentación</option>
+      <option value="herramienta">Herramienta interna</option>
+    </select>
+    <span class="ac-error" id="project-type-error" hidden></span>
+  </div>
+  <label class="ac-check" for="include-guide">
+    <input id="include-guide" name="guide" type="checkbox">
+    <span>Incluir guía de uso<small>Opción de ejemplo para este proyecto.</small></span>
+  </label>
+  <div class="ac-actions">
+    <button type="button" class="ac-button ac-button--primary" data-ac-submit>Guardar ejemplo</button>
+    <button type="reset" class="ac-button ac-button--text">Restablecer</button>
+  </div>
+</form></div><div class="ac-notice ac-notice--success ds-form-result" id="preferences-result" role="region" aria-label="Preferencias del ejemplo guardadas" hidden><strong>Ejemplo guardado en esta página</strong><dl><div><dt>Proyecto</dt><dd id="saved-project"></dd></div><div><dt>Tipo</dt><dd id="saved-type"></dd></div><div><dt>Guía</dt><dd id="saved-guide"></dd></div></dl></div><p class="ds-note">Guardá el formulario vacío para ver los errores. Corregí los campos y guardá otra vez. El ejemplo conserva las preferencias en memoria hasta recargar o restablecer la página. No envía datos ni crea un registro real.</p><div class="ac-field od-field ds-native-disabled"><label for="disabled-example">Campo no disponible</label><input class="ac-input" id="disabled-example" value="Solo como muestra" disabled aria-describedby="disabled-example-help"><span class="ac-help" id="disabled-example-help">No admite cambios en este estado.</span></div><details class="ds-code"><summary>Ver código HTML</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-formulario" aria-label="Copiar código de formulario">Copiar código</button></div><pre tabindex="0" aria-label="Código de formulario"><code id="code-formulario">&lt;form class=&quot;ac-form&quot; id=&quot;preferences-demo&quot; data-ac-form novalidate&gt;
+  &lt;div class=&quot;ac-notice ac-notice--error&quot; data-ac-errors tabindex=&quot;-1&quot;
+    role=&quot;group&quot; aria-labelledby=&quot;form-errors-title&quot; hidden&gt;
+    &lt;strong id=&quot;form-errors-title&quot;&gt;Revisá estos campos&lt;/strong&gt;&lt;ul&gt;&lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;ac-field od-field&quot;&gt;
+    &lt;label for=&quot;project-name&quot;&gt;Nombre del proyecto (obligatorio)&lt;/label&gt;
+    &lt;input class=&quot;ac-input&quot; id=&quot;project-name&quot; name=&quot;project&quot; type=&quot;text&quot;
+      required minlength=&quot;3&quot; maxlength=&quot;64&quot; data-ac-field data-ac-label=&quot;Nombre del proyecto&quot;
+      data-error-required=&quot;Escribí el nombre del proyecto.&quot;
+      aria-describedby=&quot;project-name-help project-name-error&quot;&gt;
+    &lt;span class=&quot;ac-help&quot; id=&quot;project-name-help&quot;&gt;Entre 3 y 64 caracteres.&lt;/span&gt;
+    &lt;span class=&quot;ac-error&quot; id=&quot;project-name-error&quot; hidden&gt;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;ac-field od-field&quot;&gt;
+    &lt;label for=&quot;project-type&quot;&gt;Tipo de proyecto (obligatorio)&lt;/label&gt;
+    &lt;select class=&quot;ac-select&quot; id=&quot;project-type&quot; name=&quot;type&quot; required data-ac-field
+      data-ac-label=&quot;Tipo de proyecto&quot; data-error-required=&quot;Elegí un tipo de proyecto.&quot;
+      aria-describedby=&quot;project-type-error&quot;&gt;
+      &lt;option value=&quot;&quot;&gt;Seleccioná una opción&lt;/option&gt;
+      &lt;option value=&quot;portal&quot;&gt;Portal&lt;/option&gt;
+      &lt;option value=&quot;landing&quot;&gt;Página de presentación&lt;/option&gt;
+      &lt;option value=&quot;herramienta&quot;&gt;Herramienta interna&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;span class=&quot;ac-error&quot; id=&quot;project-type-error&quot; hidden&gt;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;label class=&quot;ac-check&quot; for=&quot;include-guide&quot;&gt;
+    &lt;input id=&quot;include-guide&quot; name=&quot;guide&quot; type=&quot;checkbox&quot;&gt;
+    &lt;span&gt;Incluir guía de uso&lt;small&gt;Opción de ejemplo para este proyecto.&lt;/small&gt;&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;div class=&quot;ac-actions&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;ac-button ac-button--primary&quot; data-ac-submit&gt;Guardar ejemplo&lt;/button&gt;
+    &lt;button type=&quot;reset&quot; class=&quot;ac-button ac-button--text&quot;&gt;Restablecer&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre></details><p class="ds-note">La biblioteca valida al salir de un campo o intentar guardar. Enter en un campo de texto usa la misma validación. El evento <code>ac:submit</code> entrega los valores válidos. La aplicación debe guardarlos antes de comunicar un éxito real.</p><details class="ds-code"><summary>Ver contrato JavaScript</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-evento-formulario" aria-label="Copiar código de evento-formulario">Copiar código</button></div><pre tabindex="0" aria-label="Código de evento-formulario"><code id="code-evento-formulario">document.querySelector(&#x27;[data-ac-form]&#x27;).addEventListener(&#x27;ac:submit&#x27;, event =&gt; {
+  const values = event.detail.values;
+  // Conectá estos valores al estado o servicio de tu aplicación.
+  // Mostrá éxito solamente cuando el guardado haya terminado.
+});</code></pre></details></div></section>
+<section class="ds-section" id="navegacion" aria-labelledby="title-navegacion"><div class="ds-section-heading"><span>06</span><h2 id="title-navegacion">Navegación</h2></div><div class="ds-section-body"><p class="ds-lead">Los enlaces cambian de destino. Las pestañas cambian el contenido dentro de una misma vista.</p><div class="ds-demo ds-demo-white"><nav aria-label="Ruta de navegación">
+  <ol class="ac-breadcrumb">
+    <li><a href="index.html">Inicio</a></li>
+    <li><span aria-current="page">Sistema de diseño</span></li>
+  </ol>
+</nav></div><details class="ds-code"><summary>Ver código HTML</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-ruta" aria-label="Copiar código de ruta">Copiar código</button></div><pre tabindex="0" aria-label="Código de ruta"><code id="code-ruta">&lt;nav aria-label=&quot;Ruta de navegación&quot;&gt;
+  &lt;ol class=&quot;ac-breadcrumb&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;index.html&quot;&gt;Inicio&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;span aria-current=&quot;page&quot;&gt;Sistema de diseño&lt;/span&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre></details><div class="ds-demo "><div data-ac-tabs>
+  <div class="ac-tabs-list" role="tablist" aria-label="Ejemplo de pestañas">
+    <button type="button" class="ac-tab" id="tab-bases" role="tab"
+      aria-controls="panel-bases" aria-selected="true" tabindex="0">Bases</button>
+    <button type="button" class="ac-tab" id="tab-components" role="tab"
+      aria-controls="panel-components" aria-selected="false" tabindex="-1">Componentes</button>
+    <button type="button" class="ac-tab" id="tab-code" role="tab"
+      aria-controls="panel-code" aria-selected="false" tabindex="-1">Código</button>
+  </div>
+  <div class="ac-tab-panel" id="panel-bases" role="tabpanel" aria-labelledby="tab-bases" tabindex="0">
+    <h3>Las decisiones compartidas</h3><p>Colores, tipografía y espaciado dan una base común a cada interfaz.</p>
+  </div>
+  <div class="ac-tab-panel" id="panel-components" role="tabpanel" aria-labelledby="tab-components" tabindex="0" hidden>
+    <h3>Los elementos de la interfaz</h3><p>Botones y campos conservan el mismo comportamiento en cada pantalla.</p>
+  </div>
+  <div class="ac-tab-panel" id="panel-code" role="tabpanel" aria-labelledby="tab-code" tabindex="0" hidden>
+    <h3>El punto de partida</h3><p>Las clases y el comportamiento se pueden reutilizar con HTML, CSS y JavaScript.</p>
+  </div>
+</div></div><p class="ds-note">En las pestañas, usá izquierda y derecha, Inicio y Fin. Tab avanza desde la pestaña seleccionada al contenido. Cada pestaña y panel necesita un identificador único al copiar el patrón.</p><details class="ds-code"><summary>Ver código HTML</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-pestanas" aria-label="Copiar código de pestanas">Copiar código</button></div><pre tabindex="0" aria-label="Código de pestanas"><code id="code-pestanas">&lt;div data-ac-tabs&gt;
+  &lt;div class=&quot;ac-tabs-list&quot; role=&quot;tablist&quot; aria-label=&quot;Ejemplo de pestañas&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;ac-tab&quot; id=&quot;tab-bases&quot; role=&quot;tab&quot;
+      aria-controls=&quot;panel-bases&quot; aria-selected=&quot;true&quot; tabindex=&quot;0&quot;&gt;Bases&lt;/button&gt;
+    &lt;button type=&quot;button&quot; class=&quot;ac-tab&quot; id=&quot;tab-components&quot; role=&quot;tab&quot;
+      aria-controls=&quot;panel-components&quot; aria-selected=&quot;false&quot; tabindex=&quot;-1&quot;&gt;Componentes&lt;/button&gt;
+    &lt;button type=&quot;button&quot; class=&quot;ac-tab&quot; id=&quot;tab-code&quot; role=&quot;tab&quot;
+      aria-controls=&quot;panel-code&quot; aria-selected=&quot;false&quot; tabindex=&quot;-1&quot;&gt;Código&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;ac-tab-panel&quot; id=&quot;panel-bases&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;tab-bases&quot; tabindex=&quot;0&quot;&gt;
+    &lt;h3&gt;Las decisiones compartidas&lt;/h3&gt;&lt;p&gt;Colores, tipografía y espaciado dan una base común a cada interfaz.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;ac-tab-panel&quot; id=&quot;panel-components&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;tab-components&quot; tabindex=&quot;0&quot; hidden&gt;
+    &lt;h3&gt;Los elementos de la interfaz&lt;/h3&gt;&lt;p&gt;Botones y campos conservan el mismo comportamiento en cada pantalla.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;ac-tab-panel&quot; id=&quot;panel-code&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;tab-code&quot; tabindex=&quot;0&quot; hidden&gt;
+    &lt;h3&gt;El punto de partida&lt;/h3&gt;&lt;p&gt;Las clases y el comportamiento se pueden reutilizar con HTML, CSS y JavaScript.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></details></div></section>
+<section class="ds-section" id="contenido" aria-labelledby="title-contenido"><div class="ds-section-heading"><span>07</span><h2 id="title-contenido">Contenido</h2></div><div class="ds-section-body"><h3>Acordeones</h3><p class="ds-lead">El encabezado completo abre y cierra el detalle. Enter y Espacio funcionan con el control nativo.</p><div class="ds-demo ds-demo-white"><details class="ac-disclosure">
+  <summary>¿Cuándo usar un acordeón?<span class="ac-disclosure-glyph" aria-hidden="true"></span></summary>
+  <div class="ac-disclosure-body"><p>Para detalles secundarios que la persona puede consultar cuando los necesita.</p></div>
+</details>
+<details class="ac-disclosure">
+  <summary>¿Qué debe quedar siempre visible?<span class="ac-disclosure-glyph" aria-hidden="true"></span></summary>
+  <div class="ac-disclosure-body"><p>La acción principal, los errores y la información necesaria para tomar una decisión.</p></div>
+</details></div><details class="ds-code"><summary>Ver código HTML</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-acordeon" aria-label="Copiar código de acordeon">Copiar código</button></div><pre tabindex="0" aria-label="Código de acordeon"><code id="code-acordeon">&lt;details class=&quot;ac-disclosure&quot;&gt;
+  &lt;summary&gt;¿Cuándo usar un acordeón?&lt;span class=&quot;ac-disclosure-glyph&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class=&quot;ac-disclosure-body&quot;&gt;&lt;p&gt;Para detalles secundarios que la persona puede consultar cuando los necesita.&lt;/p&gt;&lt;/div&gt;
+&lt;/details&gt;
+&lt;details class=&quot;ac-disclosure&quot;&gt;
+  &lt;summary&gt;¿Qué debe quedar siempre visible?&lt;span class=&quot;ac-disclosure-glyph&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;/summary&gt;
+  &lt;div class=&quot;ac-disclosure-body&quot;&gt;&lt;p&gt;La acción principal, los errores y la información necesaria para tomar una decisión.&lt;/p&gt;&lt;/div&gt;
+&lt;/details&gt;</code></pre></details><h3>Tablas</h3><p class="ds-lead">Usá encabezados reales y un título. Conservá unidades y fuentes cuando haya cifras. En pantallas estrechas, solo la tabla puede desplazarse horizontalmente.</p><div class="ds-demo ds-demo-white"><div class="ac-table-region" role="region" aria-label="Archivos del sistema" tabindex="0">
+  <table class="ac-table">
+    <caption>Archivos de implementación</caption>
+    <thead><tr><th scope="col">Archivo</th><th scope="col">Contenido</th><th scope="col">Formato</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><a class="ac-link" href="styles/tokens.css" download>tokens.css</a></th><td>Valores de marca y roles de interfaz</td><td>CSS</td></tr>
+      <tr><th scope="row"><a class="ac-link" href="styles/system.css" download>system.css</a></th><td>Componentes y estados</td><td>CSS</td></tr>
+      <tr><th scope="row"><a class="ac-link" href="scripts/system.js" download>system.js</a></th><td>Pestañas, formularios y avisos</td><td>JavaScript</td></tr>
+    </tbody>
+  </table>
+</div></div><details class="ds-code"><summary>Ver código HTML</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-tabla" aria-label="Copiar código de tabla">Copiar código</button></div><pre tabindex="0" aria-label="Código de tabla"><code id="code-tabla">&lt;div class=&quot;ac-table-region&quot; role=&quot;region&quot; aria-label=&quot;Archivos del sistema&quot; tabindex=&quot;0&quot;&gt;
+  &lt;table class=&quot;ac-table&quot;&gt;
+    &lt;caption&gt;Archivos de implementación&lt;/caption&gt;
+    &lt;thead&gt;&lt;tr&gt;&lt;th scope=&quot;col&quot;&gt;Archivo&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;Contenido&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;Formato&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;&lt;a class=&quot;ac-link&quot; href=&quot;styles/tokens.css&quot; download&gt;tokens.css&lt;/a&gt;&lt;/th&gt;&lt;td&gt;Valores de marca y roles de interfaz&lt;/td&gt;&lt;td&gt;CSS&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;&lt;a class=&quot;ac-link&quot; href=&quot;styles/system.css&quot; download&gt;system.css&lt;/a&gt;&lt;/th&gt;&lt;td&gt;Componentes y estados&lt;/td&gt;&lt;td&gt;CSS&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;&lt;a class=&quot;ac-link&quot; href=&quot;scripts/system.js&quot; download&gt;system.js&lt;/a&gt;&lt;/th&gt;&lt;td&gt;Pestañas, formularios y avisos&lt;/td&gt;&lt;td&gt;JavaScript&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</code></pre></details></div></section>
+<section class="ds-section" id="mensajes" aria-labelledby="title-mensajes"><div class="ds-section-heading"><span>08</span><h2 id="title-mensajes">Mensajes y estados propuestos</h2></div><div class="ds-section-body"><p class="ds-origin-note"><strong>Propuesta nueva.</strong> Estos mensajes, etiquetas y colores fueron creados para este prototipo. No aparecen en los archivos de Autocrédito que compartiste y no son reglas corporativas.</p><p class="ds-lead">Ejemplos para una posible interfaz digital.</p><div class="ds-demo-stack"><div class="ac-notice ac-notice--success"><strong>Ejemplo de confirmación</strong><p>Describí el cambio que se completó y dónde se puede consultar.</p></div><div class="ac-notice ac-notice--error"><strong>Ejemplo de error</strong><p>Explicá qué falló y cómo corregirlo. Conservá los datos ingresados.</p></div><div class="ac-notice ac-notice--warning"><strong>Ejemplo de advertencia</strong><p>Indicá la consecuencia relevante antes de confirmar la acción.</p></div><div class="ac-notice ac-notice--info">
+  <strong>Ejemplo de información</strong>
+  <p>Indicá qué necesita saber la persona antes de continuar.</p>
+</div></div><div class="ac-actions" aria-label="Ejemplos de etiquetas de estado"><span class="ac-status ac-status--success">Disponible</span><span class="ac-status ac-status--pending">Pendiente</span><span class="ac-status ac-status--error">Requiere revisión</span></div><details class="ds-code"><summary>Ver código HTML</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-mensaje" aria-label="Copiar código de mensaje">Copiar código</button></div><pre tabindex="0" aria-label="Código de mensaje"><code id="code-mensaje">&lt;div class=&quot;ac-notice ac-notice--info&quot;&gt;
+  &lt;strong&gt;Información&lt;/strong&gt;
+  &lt;p&gt;Indicá qué necesita saber la persona antes de continuar.&lt;/p&gt;
+&lt;/div&gt;</code></pre></details><div class="ds-demo "><button type="button" class="ac-button ac-button--secondary"
+  data-ac-toast-target="ui-toast" data-ac-toast-message="Este es un aviso de ejemplo.">Mostrar aviso</button></div><p class="ds-note">El aviso temporal se cierra a los cinco segundos. El tiempo se pausa al pasar el puntero o enfocar su control. Los errores que requieren corrección permanecen visibles junto al campo. Usá <code>role="status"</code> para confirmaciones dinámicas y <code>role="alert"</code> cuando un error nuevo requiera atención inmediata.</p><details class="ds-code"><summary>Ver código HTML</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-aviso" aria-label="Copiar código de aviso">Copiar código</button></div><pre tabindex="0" aria-label="Código de aviso"><code id="code-aviso">&lt;button type=&quot;button&quot; class=&quot;ac-button ac-button--secondary&quot;
+  data-ac-toast-target=&quot;ui-toast&quot; data-ac-toast-message=&quot;Este es un aviso de ejemplo.&quot;&gt;Mostrar aviso&lt;/button&gt;
+&lt;div class=&quot;ac-toast&quot; id=&quot;ui-toast&quot; role=&quot;status&quot; aria-live=&quot;polite&quot; aria-atomic=&quot;true&quot; hidden&gt;
+  &lt;p data-ac-toast-text&gt;&lt;/p&gt;
+  &lt;button type=&quot;button&quot; class=&quot;ac-toast-dismiss&quot; data-ac-toast-dismiss aria-label=&quot;Cerrar aviso&quot;&gt;Cerrar&lt;/button&gt;
+&lt;/div&gt;</code></pre></details></div></section>
+<section class="ds-section" id="accesibilidad" aria-labelledby="title-accesibilidad"><div class="ds-section-heading"><span>09</span><h2 id="title-accesibilidad">Accesibilidad</h2></div><div class="ds-section-body"><p class="ds-lead">Criterios de accesibilidad aplicados a los componentes de esta propuesta.</p><ul class="ds-rules"><li>Texto con contraste mínimo de 4,5:1. Texto grande y gráficos esenciales con 3:1.</li><li>Foco de 3 px, separado del control. El encabezado usa foco verde oscuro sobre fondo blanco.</li><li>Áreas táctiles de al menos 44 × 44 px y separación suficiente entre acciones.</li><li>Etiquetas visibles, ayuda conectada al campo y errores que expliquen la corrección.</li><li>Navegación por teclado. En pestañas, un punto de entrada con Tab y flechas para cambiar de opción.</li><li>La selección se expresa con texto, forma o estado accesible además del color.</li><li>Contenido en flujo normal. Los textos largos se ajustan y las tablas tienen su propia región de desplazamiento.</li><li>Respetar el zoom del navegador y <code>prefers-reduced-motion</code>. No desactivar la ampliación.</li><li>Reservar <code>aria-live</code> para cambios que deban anunciarse. Evitar avisos repetidos.</li></ul><p class="ds-note">Estas son reglas de implementación. La accesibilidad de cada producto también depende de su contenido y de cómo integre los componentes.</p></div></section>
+<section class="ds-section" id="implementacion" aria-labelledby="title-implementacion"><div class="ds-section-heading"><span>10</span><h2 id="title-implementacion">Implementación</h2></div><div class="ds-section-body"><p class="ds-lead">HTML, CSS y JavaScript sin dependencias externas. Las variables se cargan antes de los componentes.</p><details class="ds-code"><summary>Ver instalación</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-instalacion" aria-label="Copiar código de instalacion">Copiar código</button></div><pre tabindex="0" aria-label="Código de instalacion"><code id="code-instalacion">&lt;link rel=&quot;stylesheet&quot; href=&quot;styles/tokens.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;styles/system.css&quot;&gt;
+&lt;script src=&quot;scripts/system.js&quot; defer&gt;&lt;/script&gt;
+
+&lt;!-- El contenedor ac-ui aplica el estilo y el foco del sistema. --&gt;
+&lt;main class=&quot;ac-ui&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;ac-button ac-button--primary&quot;&gt;Continuar&lt;/button&gt;
+&lt;/main&gt;</code></pre></details><details class="ds-code"><summary>Ver API JavaScript</summary><div class="ds-code-tools"><button type="button" class="ds-copy" data-ds-copy="code-api" aria-label="Copiar código de api">Copiar código</button></div><pre tabindex="0" aria-label="Código de api"><code id="code-api">// Se inicializan automáticamente los componentes presentes al cargar.
+// Para contenido agregado después:
+AutocreditoUI.init(nuevoContenedor);
+
+// Requiere un contenedor de aviso con ese id en el HTML.
+AutocreditoUI.showToast(&#x27;ui-toast&#x27;, &#x27;El cambio se completó.&#x27;);</code></pre></details><h3>Archivos fuente de la propuesta</h3><div class="ds-downloads"><a href="styles/tokens.css" download>Variables de marca e interfaz <span aria-hidden="true">↓</span></a><a href="styles/system.css" download>Estilos de componentes <span aria-hidden="true">↓</span></a><a href="scripts/system.js" download>Comportamiento de componentes <span aria-hidden="true">↓</span></a><a href="design-system.html" download>Ejemplos y documentación HTML <span aria-hidden="true">↓</span></a><a href="styles/system-docs.css" download>Estilos de la documentación <span aria-hidden="true">↓</span></a><a href="styles/portal.css" download>Estilos del portal <span aria-hidden="true">↓</span></a><a href="scripts/system-docs.js" download>Interacciones de demostración <span aria-hidden="true">↓</span></a></div><p class="ds-note">Conservá las rutas <code>styles/</code>, <code>scripts/</code> y <code>assets/fonts/</code>. Los componentes usan Manrope 400, 500 y 600. Sus archivos y licencia están en <a class="ac-link" href="resources.html#fonts">Descargas de fuentes</a>.</p><p class="ds-note">Para reproducir esta página completa también necesitás <code>styles/brand.css</code>, <code>styles/portal.css</code>, el logo de <code>assets/brand/</code> y sus recursos existentes. Para integrar solo los componentes alcanzan los archivos de instalación y las fuentes. No hace falta copiar los estilos ni el script de esta documentación.</p><p class="ds-note">Para nuevos usos, modificá primero los roles compartidos y evitá crear una variante por pantalla. Los colores de estado, tamaños y comportamientos de este capítulo son la base digital propuesta para el proyecto. Un manual corporativo oficial tiene prioridad.</p><div class="ds-actions"><a class="ac-link" href="resources.html#sistema">Descargar archivos</a><a class="ac-link" href="visual-identity.html">Consultar identidad visual</a></div></div></section>
+</main><footer class="site-footer"><span>Autocrédito · Marca</span><div><a href="strategy.html">Marca</a><span aria-hidden="true">·</span><a href="visual-identity.html">Identidad visual</a><span aria-hidden="true">·</span><a href="design-system.html">Sistema de diseño</a><span aria-hidden="true">·</span><a href="resources.html">Descargas</a></div></footer><div class="ac-toast" id="ui-toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+  <p data-ac-toast-text></p>
+  <button type="button" class="ac-toast-dismiss" data-ac-toast-dismiss aria-label="Cerrar aviso">Cerrar</button>
+</div><div class="sr-only" id="ds-live" role="status" aria-live="polite" aria-atomic="true"></div></body></html>

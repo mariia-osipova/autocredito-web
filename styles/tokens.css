@@ -1,0 +1,34 @@
+/* Autocrédito digital brand direction — proposed rules, source-derived colors. */
+:root{
+ --green:#007853;--deep:#0B5B3C;--forest:#103D2C;--leaf:#47B574;--ribbon:#17A36A;
+ --yellow:#F7E343;--orange:#F08A4B;--paper:#FFFCEB;--ink:#17392C;--muted:#59685F;
+ --white:#FFFFFF;--canvas:#F8FAF8;--soft:#EDF3EE;--line:#DCE4DE;
+ --font-ui:Manrope,'Segoe UI',sans-serif;--font-display:var(--font-ui);--font-body:var(--font-ui);
+ --font-brand-display:Jakarta,'Trebuchet MS',sans-serif;--font-brand-body:Montserrat,'Segoe UI',sans-serif;
+ --text-xs:.75rem;--text-sm:.875rem;--text-base:1rem;--text-lg:1.25rem;--text-h3:1.5rem;
+ --text-h2:clamp(1.75rem,3vw,2.5rem);--text-display:clamp(2.3rem,4.2vw,3.7rem);
+ --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s6:24px;--s8:32px;--s10:40px;
+ --s12:48px;--s16:64px;--s20:80px;--radius:16px;--duration:200ms;--page-width:1320px;
+}
+
+/* Proposed interface roles created for this project, not corporate specifications.
+   Sistema de diseño: semantic roles for light web interfaces.
+   Brand primitives above remain the source of truth. */
+:root{
+ --ui-page:var(--white);--ui-surface:var(--white);--ui-surface-subtle:var(--canvas);
+ --ui-text:var(--ink);--ui-text-muted:var(--muted);--ui-text-inverse:var(--white);
+ --ui-action:var(--green);--ui-action-hover:var(--deep);--ui-action-active:var(--forest);
+ --ui-border:var(--line);--ui-border-control:#75877D;--ui-focus:var(--deep);
+ --ui-disabled-bg:var(--soft);--ui-disabled-text:#647269;
+ --ui-success:#0B5B3C;--ui-success-bg:#EDF6F0;
+ --ui-error:#9C2F24;--ui-error-bg:#FFF3F0;
+ --ui-warning:#6D4E00;--ui-warning-bg:#FFFBE7;
+ --ui-info:#214D66;--ui-info-bg:#EDF5F9;
+ --ui-text-display:clamp(2rem,4vw,3rem);--ui-text-heading:2rem;--ui-text-section:var(--text-h3);
+ --ui-text-title:var(--text-lg);--ui-text-body:var(--text-base);--ui-text-small:var(--text-sm);
+ --ui-font:var(--font-ui);--ui-weight-read:400;--ui-weight-label:500;--ui-weight-action:600;
+ --ui-control-height:48px;--ui-target-min:44px;--ui-control-radius:8px;
+ --ui-panel-radius:12px;--ui-border-width:1px;--ui-focus-width:3px;
+ --ui-motion:200ms;--ui-ease-enter:cubic-bezier(.16,1,.3,1);--ui-ease-exit:cubic-bezier(.7,0,.84,0);
+ --ui-layout-reading:65ch;--ui-layout-content:1200px;
+}
